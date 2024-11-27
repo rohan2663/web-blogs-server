@@ -11,16 +11,25 @@ import fileUpload from "express-fileupload";
 const app = express();
 dotenv.config({ path: "./config/config.env" });
 
-app.use(
-  cors({
-    origin: "https://web-blog-frontend-chi.vercel.app/",
-    credentials: true,
-  })
-);
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://web-blog-frontend-chi.vercel.app/',
+];
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 app.use(
   fileUpload({
