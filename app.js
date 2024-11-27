@@ -13,7 +13,7 @@ dotenv.config({ path: "./config/config.env" });
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://web-blog-frontend-chi.vercel.app/",
     credentials: true,
   })
 );
